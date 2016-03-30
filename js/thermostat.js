@@ -42,6 +42,16 @@ Thermostat.prototype.energyUsage = function(){
   }
 };
 
+Thermostat.prototype.psmOn = function(){
+  this.power_save = true
+  if (this.temperature > this.MAX_TEMP_SAVE){
+    this.temperature = this.MAX_TEMP_SAVE;
+  }
+};
+
+Thermostat.prototype.psmOff = function(){
+  this.power_save = false
+};
 Thermostat.prototype.isMinTemperature = function(){
   return this.temperature == this.MIN_TEMP;
 };

@@ -42,6 +42,25 @@ describe("Thermostat", function(){
       thermostat.resetTemperature();
       expect(thermostat.temperature).toEqual(20);
     });
+
+    it("PSM off sets power_save to false", function(){
+      thermostat.psmOff();
+      expect(thermostat.power_save).toEqual(false);
+    });
+
+    it("PSM on sets power_save to true", function(){
+      thermostat.psmOff();
+      thermostat.psmOn();
+      expect(thermostat.power_save).toEqual(true);
+    });
+
+    it("PSM on sets temperature to eco max if previously higher than eco max", function(){
+      for (var i= 1; i<=12; i++){
+      thermostat.up();
+      }
+      thermostat.psmOn();
+      expect(thermostat.temperature).toEqual(25);
+    });
   });
 
   describe('power save mode', function(){

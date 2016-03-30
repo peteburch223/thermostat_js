@@ -1,22 +1,17 @@
 $(document).ready(function(){
   var thermostat = new Thermostat();
+  // this doesn't appear to work in Chrome for file-hosted HTML
   navigator.geolocation.getCurrentPosition(onPositionUpdate);
 
   updateDisplay(thermostat);
 
 
   function onPositionUpdate(position) {
+      console.log("position updated");
       var lat = position.coords.latitude;
       var lon = position.coords.longitude;
-      $.ajax({
-          url : "http://api.wunderground.com/api/ApiId/geolookup/conditions/q/"+lat+","+lon+".json",
-          dataType : "jsonp",
-          success : function(parsed_json) {
-              var location = parsed_json['location']['city'];
-              var temp_f = parsed_json['current_observation']['temp_f'];
-              alert("Current temperature in " + location + " is: " + temp_f);
-          }
-      });
+      console.log("lat:" + lat + " lon:" + lon);
+      updateWeather(lat,lon);
   }
 
 
@@ -46,7 +41,7 @@ $(document).ready(function(){
   });
 
   $("#get-current-weather").click(function(){
-    updateWeather($("#get-current-weather").val());
+    updateWeather($("#current-location").val());
   });
 
   function updateDisplay(){
@@ -57,6 +52,22 @@ $(document).ready(function(){
     }
     $('#temperature').attr('class', thermostat.energyUsage());
     $("#temperature").text(thermostat.temperature);
+    $(".dial")
+        .val(thermostat.temperature)
+        .trigger('change');
+    // $("#temperature-dial").attr('value', thermostat.temperature);
+  }
+
+
+  function updateWeather(lat, lon){
+    URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
+    API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
+    url = URL_BASE + "?lat=" + lat + "&lon=" + lon + "&APPID=" + API_KEY;
+    console.log(url);
+    $.getJSON(url, function(data){
+      displayWeather(data);
+      displayWeatherIcon(data);
+    });
   }
 
   function updateWeather(city){
@@ -82,5 +93,18 @@ $(document).ready(function(){
     weatherText = weatherDescription + ": " + weatherTemperature + "&deg;C"
     $("#weather-text").html(weatherText);
   }
+
+  $(function() {
+      $(".dial").knob({
+        'min':10,
+        'max':32,
+        'angleOffset':-125,
+        'angleArc':250,
+        'width':200,
+        'cursor':false,
+        'thickness':.3,
+        'readOnly':true
+      });
+  });
 
 });

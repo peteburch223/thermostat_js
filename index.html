@@ -22,21 +22,35 @@
       integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
     <script src="js/thermostat.js"></script>
+    <script src="js/jQuery.knob.js"></script>
     <script src="js/formActions.js"></script>
     <title>Thermostat</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid text-center">
       <section>
-        <h1 id="temperature"></h1>
+        <p>power saving mode is <span id="power-saving-status">on</span></p>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+
+
+        <form>
+          <input type="text" value="75" class="dial" id="temperature-dial">
+        </form>
         <p>
-          <button id="temperature-up">+</button>
-          <button id="temperature-down">-</button>
-          <button id="temperature-reset">reset</button>
-          power saving mode is <span id="power-saving-status">on</span>
-          <button id="powersaving-on">PSM on</button>
-          <button id="powersaving-off">PSM off</button>
+          <button class="btn" id="temperature-down">-</button>
+          <button class="btn" id="temperature-reset">reset</button>
+          <button class="btn" id="temperature-up">+</button>
         </p>
+        <p>
+
+          <button class="btn" id="powersaving-on">PSM on</button>
+          <button class="btn" id="powersaving-off">PSM off</button>
+        </p>
+
+      </div>
+      </div>
         <form>
           <input type="text" id="current-location" placeholder="City Name">
           <input type="button" id="get-current-weather" value="Get Weather">

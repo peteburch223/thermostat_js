@@ -17,7 +17,7 @@ $(document).ready(function(){
   }
 
   function getLastSetting(){
-    URL = 'http://localhost:4567/temperature';
+    var URL = 'http://localhost:4567/temperature';
     $.getJSON(URL, function(data){
       alert('retrieved ' + data.temperature);
       thermostat.temperature = data.temperature;
@@ -69,15 +69,16 @@ $(document).ready(function(){
   }
 
   function postTemperature(){
-    URL = 'http://localhost:4567/temperature';
+    alert(thermostat.temperature);
+    var URL = 'http://localhost:4567/temperature';
     $.post(URL,{temp: thermostat.temperature});
 
   }
 
   function updateWeather(lat, lon){
-    URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
-    API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
-    url = URL_BASE + "?lat=" + lat + "&lon=" + lon + "&APPID=" + API_KEY;
+    var URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
+    var API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
+    var url = URL_BASE + "?lat=" + lat + "&lon=" + lon + "&APPID=" + API_KEY;
     console.log(url);
     $.getJSON(url, function(data){
       displayWeather(data);
@@ -86,9 +87,9 @@ $(document).ready(function(){
   }
 
   function updateWeather(city){
-    URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
-    API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
-    url = URL_BASE + "?q=" + city + "&APPID=" + API_KEY;
+    var URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
+    var API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
+    var url = URL_BASE + "?q=" + city + "&APPID=" + API_KEY;
     console.log(url);
     $.getJSON(url, function(data){
       displayWeather(data);
@@ -97,16 +98,16 @@ $(document).ready(function(){
   }
 
   function displayWeatherIcon(data){
-    ICON_BASE = "http://openweathermap.org/img/w/";
-    url = ICON_BASE + data.weather[0].icon + ".png";
+    var ICON_BASE = "http://openweathermap.org/img/w/";
+    var url = ICON_BASE + data.weather[0].icon + ".png";
     $("#weather-icon").attr("src",url);
   }
 
   function displayWeather(data){
     alert(data['main']['temp']);
-    weatherDescription = data.weather[0].main;
-    weatherTemperature = Math.round(data.main.temp - 273);
-    weatherText = weatherDescription + ": " + weatherTemperature + "&deg;C"
+    var weatherDescription = data.weather[0].main;
+    var weatherTemperature = Math.round(data.main.temp - 273);
+    var weatherText = weatherDescription + ": " + weatherTemperature + "&deg;C"
     $("#weather-text").html(weatherText);
   }
 

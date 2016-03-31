@@ -13,6 +13,7 @@ set :public_folder, 'public'
   end
 
   post '/temperature' do
+    p params[:temp]
     Thermo.create(temperature: params[:temp], timestamp: Time.now)
   end
 

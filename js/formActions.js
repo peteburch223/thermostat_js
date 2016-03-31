@@ -1,10 +1,10 @@
 $(document).ready(function(){
   var thermostat = new Thermostat();
+  var DEFAULT_COLOUR = "black";
+  updateDisplay();
+
   // this doesn't appear to work in Chrome for file-hosted HTML
   navigator.geolocation.getCurrentPosition(onPositionUpdate);
-
-  updateDisplay(thermostat);
-
 
   function onPositionUpdate(position) {
       console.log("position updated");
@@ -14,30 +14,29 @@ $(document).ready(function(){
       updateWeather(lat,lon);
   }
 
-
   $("#powersaving-on").click(function(event){
     thermostat.psmOn();
-    updateDisplay(thermostat);
+    updateDisplay();
   });
 
   $("#powersaving-off").click(function(event){
     thermostat.psmOff();
-    updateDisplay(thermostat);
+    updateDisplay();
   });
 
   $("#temperature-up").click(function(){
     thermostat.up();
-    updateDisplay(thermostat);
+    updateDisplay();
   });
 
   $("#temperature-down").click(function(){
     thermostat.down();
-    updateDisplay(thermostat);
+    updateDisplay();
   });
 
   $("#temperature-reset").click(function(){
     thermostat.resetTemperature();
-    updateDisplay(thermostat);
+    updateDisplay();
   });
 
   $("#get-current-weather").click(function(){
@@ -46,18 +45,16 @@ $(document).ready(function(){
 
   function updateDisplay(){
     if(thermostat.power_save){
-      $("#power-saving-status").text("on");
+      $("#powersaving-on").css("background-color", "green");
+      $("#powersaving-off").css("background-color", "");
     } else{
-      $("#power-saving-status").text("off");
+      $("#powersaving-on").css("background-color", "");
+      $("#powersaving-off").css("background-color", "red");
     }
-    $('#temperature').attr('class', thermostat.energyUsage());
-    $("#temperature").text(thermostat.temperature);
-    $(".dial")
-        .val(thermostat.temperature)
-        .trigger('change');
-    // $("#temperature-dial").attr('value', thermostat.temperature);
+    var myColour = getDialColour(thermostat.energyUsage());
+    $('.dial').trigger('configure',{"fgColor":myColour});
+    $(".dial").val(thermostat.temperature).trigger('change');
   }
-
 
   function updateWeather(lat, lon){
     URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
@@ -94,17 +91,31 @@ $(document).ready(function(){
     $("#weather-text").html(weatherText);
   }
 
-  $(function() {
-      $(".dial").knob({
-        'min':10,
-        'max':32,
-        'angleOffset':-125,
-        'angleArc':250,
-        'width':200,
-        'cursor':false,
-        'thickness':.3,
-        'readOnly':true
-      });
+  function getDialColour(usage){
+    switch(usage){
+      case 'low':
+        return 'green';
+        break;
+      case 'medium':
+        return DEFAULT_COLOUR;
+        break;
+      case 'high':
+        return 'red';
+        break;
+    }
+  }
+
+  $(".dial").knob({
+    'min':10,
+    'max':32,
+    'angleOffset':-125,
+    'inputColor': "#00FF00",
+    'fgColor': DEFAULT_COLOUR,
+    'angleArc':250,
+    'width':200,
+    'cursor':false,
+    'thickness':.3,
+    'readOnly':true
   });
 
 });

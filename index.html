@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-    <style>
-    .low {
-      color: green;
-    }
-    .medium {
-      color: black;
-    }
-    .high {
-      color: red;
-    }
-    </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -27,37 +15,45 @@
     <title>Thermostat</title>
   </head>
   <body>
-    <div class="container-fluid text-center">
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <p class="navbar-brand" href="#">Makers Thermostat</p>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
       <section>
-        <p>power saving mode is <span id="power-saving-status">on</span></p>
-
-        <div class="panel panel-default">
+        <div class="panel panel-default text-center">
           <div class="panel-body">
-
-
-        <form>
-          <input type="text" value="75" class="dial" id="temperature-dial">
-        </form>
-        <p>
-          <button class="btn" id="temperature-down">-</button>
-          <button class="btn" id="temperature-reset">reset</button>
-          <button class="btn" id="temperature-up">+</button>
-        </p>
-        <p>
-
-          <button class="btn" id="powersaving-on">PSM on</button>
-          <button class="btn" id="powersaving-off">PSM off</button>
-        </p>
-
-      </div>
-      </div>
-        <form>
-          <input type="text" id="current-location" placeholder="City Name">
-          <input type="button" id="get-current-weather" value="Get Weather">
-        </form>
-        <h2 id="weather-text"></h2>
-        <img id="weather-icon" src=""/>
+            <form>
+              <input type="text" class="dial" id="temperature-dial">
+            </form>
+            <p>
+              <button class="btn" id="temperature-down">-</button>
+              <button class="btn" id="temperature-reset">reset</button>
+              <button class="btn" id="temperature-up">+</button>
+            </p>
+            <p>
+              <button class="btn" id="powersaving-on">PSM on</button>
+              <button class="btn" id="powersaving-off">PSM off</button>
+            </p>
+          </div>
+        </div>
+        <div class="panel panel-default text-center">
+          <div class="panel-body">
+            <form>
+              <input type="text" id="current-location" placeholder="City Name">
+              <input type="button" id="get-current-weather" value="Get Weather">
+            </form>
+            <h2 id="weather-text"></h2>
+            <img id="weather-icon" src=""/>
+          </div>
+        </div>
       </section>
     </div>
+    <footer class="container-fluid bg-4 text-center">
+      <p>Makers Academy Week 5 project</p>
+    </footer>
   </body>
 </html>

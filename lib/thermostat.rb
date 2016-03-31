@@ -6,8 +6,9 @@ class Thermo
 	include DataMapper::Resource
 
 	property :id, Serial
-  property :temperature, String
+  property :temperature, Integer
   property :timestamp, DateTime
+  property :powerSave, Boolean
 
 end
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/thermostat_#{ENV['RACK_ENV']}")

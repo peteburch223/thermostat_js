@@ -1,9 +1,10 @@
 $(document).ready(function(){
   var thermostat = new Thermostat();
-  var DEFAULT_COLOUR = "black";
+
+
 
   getLastSetting();
-  updateDisplay();
+  
 
   // this doesn't appear to work in Chrome for file-hosted HTML
   //navigator.geolocation.getCurrentPosition(onPositionUpdate);
@@ -18,10 +19,16 @@ $(document).ready(function(){
 
   function getLastSetting(){
     var URL = 'http://localhost:4567/temperature';
-    $.getJSON(URL, function(data){
-      alert('retrieved ' + data.temperature);
-      thermostat.temperature = data.temperature;
+    $.getJSON(URL, function(data){    
+      if( data){
+        thermostat.temperature = data.temperature;
+        thermostat.power_save = data.powerSave;
+      }
+      updateDisplay();
+      drawDial(getDialColour(thermostat.energyUsage()));
+   
     });
+
   }
 
 
@@ -68,11 +75,9 @@ $(document).ready(function(){
     $(".dial").val(thermostat.temperature).trigger('change');
   }
 
-  function postTemperature(){
-    alert(thermostat.temperature);
+  function postTemperature(){    
     var URL = 'http://localhost:4567/temperature';
-    $.post(URL,{temp: thermostat.temperature});
-
+    $.post(URL,{temp: thermostat.temperature, powerSave: thermostat.power_save});
   }
 
   function updateWeather(lat, lon){
@@ -117,7 +122,7 @@ $(document).ready(function(){
         return 'green';
         break;
       case 'medium':
-        return DEFAULT_COLOUR;
+        return "black";
         break;
       case 'high':
         return 'red';
@@ -125,17 +130,20 @@ $(document).ready(function(){
     }
   }
 
-  $(".dial").knob({
-    'min':thermostat.MIN_TEMP,
-    'max': thermostat.MAX_TEMP,
-    'angleOffset':-125,
-    'inputColor': "#00FF00",
-    'fgColor': DEFAULT_COLOUR,
-    'angleArc':250,
-    'width':200,
-    'cursor':false,
-    'thickness':.3,
-    'readOnly':true
-  });
+  function drawDial(color){
+
+    $(".dial").knob({
+      'min':thermostat.MIN_TEMP,
+      'max': thermostat.MAX_TEMP,
+      'angleOffset':-125,
+      'inputColor': "#00FF00",
+      'angleArc':250,
+      'fgColor': color,
+      'width':200,
+      'cursor':false,
+      'thickness':.3,
+      'readOnly':true
+    });
+};
 
 });

@@ -14,7 +14,7 @@ set :public_folder, 'public'
 
   post '/temperature' do
     p params[:temp]
-    Thermo.create(temperature: params[:temp], timestamp: Time.now)
+    Thermo.create(temperature: params[:temp], timestamp: Time.now, powerSave: params[:powerSave])
   end
 
   get '/temperature' do

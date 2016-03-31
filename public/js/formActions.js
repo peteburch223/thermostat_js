@@ -6,8 +6,8 @@ $(document).ready(function(){
   getLastSetting();
   
 
-  // this doesn't appear to work in Chrome for file-hosted HTML
-  //navigator.geolocation.getCurrentPosition(onPositionUpdate);
+
+  navigator.geolocation.getCurrentPosition(onPositionUpdate);
 
   function onPositionUpdate(position) {
       console.log("position updated");
@@ -109,7 +109,7 @@ $(document).ready(function(){
   }
 
   function displayWeather(data){
-    alert(data['main']['temp']);
+    console.log(data['main']);
     var weatherDescription = data.weather[0].main;
     var weatherTemperature = Math.round(data.main.temp - 273);
     var weatherText = weatherDescription + ": " + weatherTemperature + "&deg;C"

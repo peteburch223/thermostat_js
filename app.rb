@@ -1,4 +1,7 @@
+ENV["RACK_ENV"] ||= "development"
 require 'sinatra/base'
+require './lib/thermostat'
+require 'json'
 
 class Thermostat < Sinatra::Base
 
@@ -11,11 +14,15 @@ set :public_folder, 'public'
 
   post '/temperature' do
     puts "I received something"
+    anything = Thermo.create(temperature: params[:temp], timestamp: Time.now)
     p params[:temp]
+    p anything
   end
 
   get '/temperature' do
-    # receiv
+  	content_type :json
+  	{ non: "boo", dud: "hell"}.to_json
+
   end
 
 

@@ -9,6 +9,7 @@ gem 'sinatra'
 gem 'capybara'
 gem 'selenium-webdriver'
 gem 'sinatra-flash'
+gem 'json'
 group :test do
 	gem 'database_cleaner'
   gem 'rspec'

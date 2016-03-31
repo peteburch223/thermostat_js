@@ -1,10 +1,12 @@
 $(document).ready(function(){
   var thermostat = new Thermostat();
   var DEFAULT_COLOUR = "black";
+
+  getLastSetting();
   updateDisplay();
 
   // this doesn't appear to work in Chrome for file-hosted HTML
-  navigator.geolocation.getCurrentPosition(onPositionUpdate);
+  //navigator.geolocation.getCurrentPosition(onPositionUpdate);
 
   function onPositionUpdate(position) {
       console.log("position updated");
@@ -14,12 +16,21 @@ $(document).ready(function(){
       updateWeather(lat,lon);
   }
 
-  $("#powersaving-on").click(function(event){
+  function getLastSetting(){
+    URL = 'http://localhost:4567/temperature';
+    $.getJSON(URL, function(data){
+      alert('retrieved ' + data.temperature);
+      thermostat.temperature = data.temperature;
+    });
+  }
+
+
+  $("#powersaving-on").click(function(){
     thermostat.psmOn();
     updateDisplay();
   });
 
-  $("#powersaving-off").click(function(event){
+  $("#powersaving-off").click(function(){
     thermostat.psmOff();
     updateDisplay();
   });
@@ -92,6 +103,7 @@ $(document).ready(function(){
   }
 
   function displayWeather(data){
+    alert(data['main']['temp']);
     weatherDescription = data.weather[0].main;
     weatherTemperature = Math.round(data.main.temp - 273);
     weatherText = weatherDescription + ": " + weatherTemperature + "&deg;C"

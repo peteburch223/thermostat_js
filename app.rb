@@ -13,16 +13,13 @@ set :public_folder, 'public'
   end
 
   post '/temperature' do
-    puts "I received something"
-    anything = Thermo.create(temperature: params[:temp], timestamp: Time.now)
-    p params[:temp]
-    p anything
+    Thermo.create(temperature: params[:temp], timestamp: Time.now)
   end
 
   get '/temperature' do
   	content_type :json
-  	{ non: "boo", dud: "hell"}.to_json
 
+    Thermo.last.to_json
   end
 
 

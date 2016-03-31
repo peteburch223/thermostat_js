@@ -106,8 +106,8 @@ $(document).ready(function(){
   }
 
   $(".dial").knob({
-    'min':10,
-    'max':32,
+    'min':thermostat.MIN_TEMP,
+    'max': thermostat.MAX_TEMP,
     'angleOffset':-125,
     'inputColor': "#00FF00",
     'fgColor': DEFAULT_COLOUR,

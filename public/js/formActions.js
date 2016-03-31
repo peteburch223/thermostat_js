@@ -14,11 +14,11 @@ $(document).ready(function(){
       var lat = position.coords.latitude;
       var lon = position.coords.longitude;
       console.log("lat:" + lat + " lon:" + lon);
-      updateWeather(lat,lon);
+      updateWeatherLatLon(lat,lon);
   }
 
   function getLastSetting(){
-    var URL = 'http://localhost:4567/temperature';
+    var URL = 'http://localhost:4567/temperature?location='+ $("#current-location").val();
     $.getJSON(URL, function(data){    
       if( data){
         thermostat.temperature = data.temperature;
@@ -77,10 +77,13 @@ $(document).ready(function(){
 
   function postTemperature(){    
     var URL = 'http://localhost:4567/temperature';
-    $.post(URL,{temp: thermostat.temperature, powerSave: thermostat.power_save});
+    $.post(URL, {temp: thermostat.temperature, 
+                powerSave: thermostat.power_save, 
+                location: $("#current-location").val()
+              });
   }
 
-  function updateWeather(lat, lon){
+  function updateWeatherLatLon(lat, lon){
     var URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';
     var API_KEY = "c588cd4dbd4ef528c87265572854b0eb";
     var url = URL_BASE + "?lat=" + lat + "&lon=" + lon + "&APPID=" + API_KEY;
@@ -88,8 +91,15 @@ $(document).ready(function(){
     $.getJSON(url, function(data){
       displayWeather(data);
       displayWeatherIcon(data);
+      upDateLocation(data);
     });
   }
+
+  function upDateLocation(data){
+    var country = data["sys"]["country"];
+    var city = data["name"];
+    $("#current-location").val(city+", "+country);
+  };
 
   function updateWeather(city){
     var URL_BASE = 'http://api.openweathermap.org/data/2.5/weather';

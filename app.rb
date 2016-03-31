@@ -14,13 +14,16 @@ set :public_folder, 'public'
 
   post '/temperature' do
     p params[:temp]
-    Thermo.create(temperature: params[:temp], timestamp: Time.now, powerSave: params[:powerSave])
+    Thermo.create(temperature: params[:temp], timestamp: Time.now, powerSave: params[:powerSave], location: params[:location])
   end
 
   get '/temperature' do
   	content_type :json
-
-    Thermo.last.to_json
+  	if params[:location].empty?
+  		Thermo.last.to_json
+  	else
+    	Thermo.last(location: params[:location]).to_json
+    end
   end
 
 

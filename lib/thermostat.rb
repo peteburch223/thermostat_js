@@ -9,6 +9,7 @@ class Thermo
   property :temperature, Integer
   property :timestamp, DateTime
   property :powerSave, Boolean
+  property :location, String
 
 end
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/thermostat_#{ENV['RACK_ENV']}")

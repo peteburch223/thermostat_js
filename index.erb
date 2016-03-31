@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+      integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="./js/thermostat.js"></script>
+    <script src="./js/jQuery.knob.js"></script>
+    <script src="./js/formActions.js"></script>
+    <title>Thermostat</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <p class="navbar-brand" href="#">Makers Thermostat</p>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <section>
+        <div class="panel panel-default text-center">
+          <div class="panel-body">
+            <form>
+              <input type="text" class="dial" id="temperature-dial">
+            </form>
+            <p>
+              <button class="btn" id="temperature-down">-</button>
+              <button class="btn" id="temperature-reset">reset</button>
+              <button class="btn" id="temperature-up">+</button>
+            </p>
+            <p>
+              <button class="btn" id="powersaving-on">PSM on</button>
+              <button class="btn" id="powersaving-off">PSM off</button>
+            </p>
+          </div>
+        </div>
+        <div class="panel panel-default text-center">
+          <div class="panel-body">
+            <form>
+              <input type="text" id="current-location" placeholder="City Name">
+              <input type="button" id="get-current-weather" value="Get Weather">
+            </form>
+            <h2 id="weather-text"></h2>
+            <img id="weather-icon" src=""/>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="container-fluid bg-4 text-center">
+      <p>Makers Academy Week 5 project</p>
+    </footer>
+  </body>
+</html>

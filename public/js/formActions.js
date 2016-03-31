@@ -44,6 +44,7 @@ $(document).ready(function(){
   });
 
   function updateDisplay(){
+     postTemperature();
     if(thermostat.power_save){
       $("#powersaving-on").css("background-color", "green");
       $("#powersaving-off").css("background-color", "");
@@ -54,6 +55,12 @@ $(document).ready(function(){
     var myColour = getDialColour(thermostat.energyUsage());
     $('.dial').trigger('configure',{"fgColor":myColour});
     $(".dial").val(thermostat.temperature).trigger('change');
+  }
+
+  function postTemperature(){
+    URL = 'http://localhost:4567/temperature';
+    $.post(URL,{temp: thermostat.temperature});
+
   }
 
   function updateWeather(lat, lon){

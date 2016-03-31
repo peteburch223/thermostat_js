@@ -10,7 +10,8 @@ set :public_folder, 'public'
   end
 
   post '/temperature' do
-    # receiv
+    puts "I received something"
+    p params[:temp]
   end
 
   get '/temperature' do

@@ -1,11 +1,8 @@
 $(document).ready(function(){
   var thermostat = new Thermostat();
 
-
-
-  getLastSetting();
-  
-
+  // getLastSetting();
+  getLastSettingFromCookie();
 
   navigator.geolocation.getCurrentPosition(onPositionUpdate);
 
@@ -17,18 +14,41 @@ $(document).ready(function(){
       updateWeatherLatLon(lat,lon);
   }
 
+  function getLastSettingFromCookie(){
+    thermostat.temperature = getCookie('temperature');
+    thermostat.power_save = getCookie('powerSave');
+    updateDisplay();
+    drawDial(getDialColour(thermostat.energyUsage()));
+  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+  }
+
+  function saveLastSettingToCookie(){
+    var d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie= "temperature="+thermostat.temperature, "powerSave="+thermostat.power_save+"; expires="+ expires;
+  }
+
   function getLastSetting(){
     var URL = 'http://localhost:4567/temperature?location='+ $("#current-location").val();
-    $.getJSON(URL, function(data){    
+    $.getJSON(URL, function(data){
       if( data){
         thermostat.temperature = data.temperature;
         thermostat.power_save = data.powerSave;
       }
       updateDisplay();
       drawDial(getDialColour(thermostat.energyUsage()));
-   
     });
-
   }
 
 
@@ -62,7 +82,9 @@ $(document).ready(function(){
   });
 
   function updateDisplay(){
-     postTemperature();
+    //  postTemperature();
+    saveLastSettingToCookie();
+
     if(thermostat.power_save){
       $("#powersaving-on").css("background-color", "green");
       $("#powersaving-off").css("background-color", "");
@@ -75,10 +97,10 @@ $(document).ready(function(){
     $(".dial").val(thermostat.temperature).trigger('change');
   }
 
-  function postTemperature(){    
+  function postTemperature(){
     var URL = 'http://localhost:4567/temperature';
-    $.post(URL, {temp: thermostat.temperature, 
-                powerSave: thermostat.power_save, 
+    $.post(URL, {temp: thermostat.temperature,
+                powerSave: thermostat.power_save,
                 location: $("#current-location").val()
               });
   }
@@ -154,6 +176,31 @@ $(document).ready(function(){
       'thickness':.3,
       'readOnly':true
     });
-};
+  };
+
+  // $(window).load(function () {
+  //    $.ajax({
+  //      type: "GET",
+  //      url: "http://localhost:4567/temperature",
+  //    }).then(function(data) {
+  //      console.log(data);
+  //      thermostat.temperature = parseInt(data);
+  //      $ ( "#temperature" ).attr("class", thermostat.energyUsage());
+  //      $ ( "#temperature" ).text(parseInt(data));
+  //    });
+  //  });
+  //
+  //  $(window).unload(function () {
+  //    var currentTemp = thermostat.temperature;
+  //    $.ajax({
+  //      type: "POST",
+  //      url: "http://localhost:4567/temperature",
+  //      async: false,
+  //      data: { "temperature": currentTemp.toString() }
+  //    });
+  //  });
+  // });
+
+
 
 });
